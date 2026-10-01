@@ -31,6 +31,17 @@ $ go run . 1.4.0-rc.1
 svconv: 1.4.0-rc.1 has a prerelease tag ("rc.1"); quad versions can't represent one
 ```
 
+Several versions can be given at once, or piped in one per line. A version
+that can't be converted is reported on stderr, the rest are still converted,
+and the exit code is 1 if any failed:
+
+```
+$ printf '1.4.0\n1.5.0-beta\n2.0.0.7\n' | go run .
+1.4.0.0
+svconv: 1.5.0-beta has a prerelease tag ("beta"); quad versions can't represent one
+2.0.0+7
+```
+
 The tool detects the input format for you: a strict four-part numeric string
 is read as a quad version, anything else is parsed as SemVer. Whichever one
 it detects, it converts to the other.
@@ -57,9 +68,9 @@ go build -o svconv .
 
 ## Status
 
-Early skeleton. The CLI takes exactly one positional argument; batch/stdin
-input isn't wired up yet. See the roadmap in the project notes for what's
-planned next.
+Early. The CLI accepts any number of versions as arguments, or reads them
+from stdin when given none (or `-`). Reading from a named file, a quiet
+mode, and a lossy mode are not done yet.
 
 ## License
 
